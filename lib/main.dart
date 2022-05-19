@@ -10,10 +10,8 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final darkTheme = FooderTheme.dark();
-
     return MaterialApp(
-      theme: darkTheme,
+      theme: Theme.of(context).brightness == Brightness.dark ? FooderTheme.dark() : FooderTheme.light(),
       title: 'Recipes',
       home: const Home(),
     );
