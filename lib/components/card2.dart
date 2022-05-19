@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/author_card.dart';
-import 'fooder_theme.dart';
+import 'package:recipes/components/author_card.dart';
+import 'package:recipes/models/models.dart';
+
+import '../fooder_theme.dart';
 
 class Card2 extends StatelessWidget {
+  final ExploreRecipe recipe;
 
-  const Card2({Key? key}) : super(key: key);
+  const Card2({Key? key, required this.recipe}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,23 +18,21 @@ class Card2 extends StatelessWidget {
           width: 350,
           height: 450,
         ),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/mag5.png'),
+            image: AssetImage(recipe.backgroundImage),
             fit: BoxFit.cover,
           ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
-          ),
+          borderRadius: BorderRadius.all( Radius.circular(10.0) ),
         ),
         // 2
         child: Column(
           children: [
             // TODO 1: add author information
-            const AuthorCard(
-              authorName: 'Mike',
-              title: 'Smoothie Connoisseur',
-              imageProvider: AssetImage('assets/author_katz.jpeg'),
+            AuthorCard(
+              authorName: recipe.authorName,
+              title: recipe.authorName,
+              imageProvider: AssetImage(recipe.profileImage),
             ),
             Expanded(
               child: Stack(
@@ -39,14 +40,14 @@ class Card2 extends StatelessWidget {
                   Positioned(
                     bottom: 16,
                     right: 16,
-                    child: Text('Recipe', style: FooderTheme.lightTextTheme.headline1),
+                    child: Text(recipe.title, style: FooderTheme.lightTextTheme.headline1),
                   ),
                   Positioned(
                     left: 16,
                     bottom: 70,
                     child: RotatedBox(
                       quarterTurns: 3 ,
-                      child: Text('Smoothies', style: FooderTheme.lightTextTheme.headline1)
+                      child: Text(recipe.subtitle, style: FooderTheme.lightTextTheme.headline1)
                     ),
                   ),
                 ],

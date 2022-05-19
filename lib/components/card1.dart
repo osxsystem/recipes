@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/fooder_theme.dart';
+import 'package:recipes/models/models.dart';
 
 class Card1 extends StatelessWidget {
-  
-  final String category = 'Editor\'s Choice';
-  final String title = 'The Art of Dough';
-  final String description = 'Learn to make the perfect bread.';
-  final String chef = 'Ray Wenderlich';
+  final ExploreRecipe recipe;
 
-  const Card1({Key? key}) : super(key: key);
+  const Card1({Key? key, required this.recipe}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +14,19 @@ class Card1 extends StatelessWidget {
         child: Stack(
           children: [
             Text(
-              category,
+              recipe.subtitle,
               style: FooderTheme.darkTextTheme.bodyText1,
             ),
             Positioned(
               child: Text(
-                title,
+                recipe.title,
                 style: FooderTheme.darkTextTheme.headline5,
               ),
               top: 20,
             ),
             Positioned(
               child: Text(
-                description,
+                recipe.message,
                 style: FooderTheme.darkTextTheme.bodyText1,
               ),
               bottom: 20,
@@ -37,7 +34,7 @@ class Card1 extends StatelessWidget {
             ),
             Positioned(
               child: Text(
-                chef,
+                recipe.authorName,
                 style: FooderTheme.darkTextTheme.bodyText1,
               ),
               bottom: 0,
@@ -53,16 +50,16 @@ class Card1 extends StatelessWidget {
           height: 450,
         ),
         // 3
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           // 4
           image: DecorationImage(
             // 5
-            image: AssetImage('assets/mag1.png'),
+            image: AssetImage(recipe.backgroundImage),
             // 6
             fit: BoxFit.cover,
           ),
           // 7
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
         ),
       ),
     );
