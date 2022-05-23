@@ -23,12 +23,11 @@ class Card2 extends StatelessWidget {
             image: AssetImage(recipe.backgroundImage),
             fit: BoxFit.cover,
           ),
-          borderRadius: BorderRadius.all( Radius.circular(10.0) ),
+          borderRadius: const BorderRadius.all( Radius.circular(10.0) ),
         ),
         // 2
         child: Column(
           children: [
-            // TODO 1: add author information
             AuthorCard(
               authorName: recipe.authorName,
               title: recipe.authorName,

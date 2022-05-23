@@ -6,8 +6,7 @@ import '../models/post.dart';
 class FriendPostListView extends StatelessWidget {
   final List<Post> friendPosts;
 
-  const FriendPostListView({Key? key, required this.friendPosts})
-      : super(key: key);
+  const FriendPostListView({Key? key, required this.friendPosts}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +16,7 @@ class FriendPostListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Social chefs', style: Theme.of(context).textTheme.headline1),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           ListView.separated(
               primary: false,
               physics: const RangeMaintainingScrollPhysics(),
