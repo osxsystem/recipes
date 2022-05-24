@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:intl/intl.dart';
+import 'package:recipes/components/grocery_tile.dart';
 import 'package:uuid/uuid.dart';
 import '../models/models.dart';
 
@@ -71,7 +72,25 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
-              // TODO 24: Add callback handler
+              final groceryItem = GroceryItem(
+                id: widget.originalItem?.id ?? const Uuid().v1(),
+                name: _nameController.text,
+                importance: _importance,
+                color: _currentColor,
+                quantity: _currentSliderValue,
+                date: DateTime(
+                  _dueDate.year,
+                  _dueDate.month,
+                  _dueDate.day,
+                  _timeOfDay.hour,
+                  _timeOfDay.minute,
+                ),
+              );
+              if (widget.isUpdating) {
+                widget.onUpdate(groceryItem);
+              } else {
+                widget.onCreate(groceryItem);
+              }
             },
           )
         ],
@@ -90,10 +109,15 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
             buildColorPicker(context),
             const SizedBox(height: 10.0),
             buildQuantityField(),
-            // TODO 16: Add time picker
-            // TODO 17: Add color picker
-            // TODO 18: Add slider
-            // TODO: 19: Add Grocery Tile
+            GroceryTile(
+                item: GroceryItem(
+              id: 'previewMode',
+              name: _name,
+              importance: _importance,
+              color: _currentColor,
+              quantity: _currentSliderValue,
+              date: DateTime(_dueDate.year, _dueDate.month, _dueDate.day, _dueDate.hour, _dueDate.minute),
+            ))
           ],
         ),
       ),
@@ -203,10 +227,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Time of Day',
-              style: GoogleFonts.lato(fontSize: 28.0),
-            ),
+            Text('Time of Day', style: GoogleFonts.lato(fontSize: 28.0)),
             TextButton(
               child: const Text('Select'),
               onPressed: () async {
@@ -234,13 +255,9 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       children: [
         Row(
           children: [
-            Container(
-              height: 50.0,
-              width: 10.0,
-              color: _currentColor,
-            ),
+            Container( height: 50.0, width: 10.0, color: _currentColor ),
             const SizedBox(width: 8.0),
-            Text( 'Color', style: GoogleFonts.lato(fontSize: 28.0), ),
+            Text( 'Color', style: GoogleFonts.lato(fontSize: 28.0) ),
           ],
         ),
         TextButton(
@@ -281,12 +298,9 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text( 'Quantity', style: GoogleFonts.lato(fontSize: 28.0), ),
-            const SizedBox(width: 16.0),
-            Text(
-              _currentSliderValue.toInt().toString(),
-              style: GoogleFonts.lato(fontSize: 18.0),
-            ),
+              Text('Quantity', style: GoogleFonts.lato(fontSize: 28.0)),
+              const SizedBox(width: 16.0),
+              Text(_currentSliderValue.toInt().toString(), style: GoogleFonts.lato(fontSize: 18.0)),
           ],
         ),
         Slider(
@@ -306,5 +320,4 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       ],
     );
   }
-
 }
