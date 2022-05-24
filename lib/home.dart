@@ -15,7 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
 
   static List<Widget> pages = <Widget>[
     const ExploreScreen(),
@@ -23,15 +22,16 @@ class _HomeState extends State<Home> {
     const GroceryScreen(),
   ];
 
-  void _onItemTapped(int index) {}
-
   @override
   Widget build(BuildContext context) {
     return Consumer<TabManager>(
       builder: (BuildContext context, tabManager, Widget? child) {
         return Scaffold(
           appBar: AppBar(title: Text('Recipes', style: Theme.of(context).textTheme.headline6)),
-          body: pages[tabManager.selectedTab],
+          body: IndexedStack(
+            index: tabManager.selectedTab,
+            children: pages,
+          ),
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor: Theme.of(context).textSelectionTheme.selectionColor,
             currentIndex: tabManager.selectedTab,

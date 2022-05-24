@@ -64,8 +64,8 @@ class GroceryTile extends StatelessWidget {
   }
 
   Widget buildDate() {
-    final dateFormate = DateFormat('MMM dd h:mm a');
-    final dateString = dateFormate.format(item.date);
+    final dateFormatter = DateFormat('MMM dd h:mm a');
+    final dateString = dateFormatter.format(item.date);
     return Text(dateString, style: TextStyle(decoration: textDecoration));
   }
 

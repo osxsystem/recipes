@@ -20,16 +20,45 @@ class GroceryListScreen extends StatelessWidget {
       child: ListView.separated(
         itemBuilder: (context, index) {
           final item = groceryItems[index];
-          // TODO 28: Wrap in a Dismissable
-          // TODO 27: Wrap in an InkWell
-          return GroceryTile(
-            item: item,
+
+          return Dismissible(
             key: Key(item.id),
-            onComplete: (change) {
-              if (change != null) {
-                manager.completeItem(index, change);
-              }
+            direction: DismissDirection.endToStart,
+            background: Container(
+              color: Colors.red,
+              alignment: Alignment.centerRight,
+              child: const Icon(Icons.delete_forever, color: Colors.white, size: 50.0),
+            ),
+            onDismissed: (direction) {
+              manager.deleteItem(index);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${item.name} dismissed')));
             },
+            child: InkWell(
+              child: GroceryTile(
+                item: item,
+                key: Key(item.id),
+                onComplete: (change) {
+                  if (change != null) {
+                    manager.completeItem(index, change);
+                  }
+                },
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GroceryItemScreen(
+                        originalItem: item,
+                        onCreate: (item) {},
+                        onUpdate: (item) {
+                          manager.updateItem(item, index);
+                          Navigator.pop(context);
+                        },
+                    ),
+                  ),
+                );
+              },
+            ),
           );
         },
         separatorBuilder: (context, index) {
