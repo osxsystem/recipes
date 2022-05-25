@@ -6,7 +6,7 @@ import '../components/circle_image.dart';
 import '../models/models.dart';
 
 class ProfileScreen extends StatefulWidget {
-  // ProfileScreen MaterialPage Helper
+
   static MaterialPage page(User user) {
     return MaterialPage(
       name: FooderlichPages.profilePath,
@@ -34,7 +34,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
-            //  Close Profile Screen
             Provider.of<ProfileManager>(context, listen: false).tapOnProfile(false);
           },
         ),
@@ -61,13 +60,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ListTile(
           title: const Text('View raywenderlich.com'),
           onTap: () {
-            // TODO: Open raywenderlich.com webview
+            Provider.of<ProfileManager>(context, listen: false).tapOnRaywenderlich(true);
           },
         ),
         ListTile(
           title: const Text('Log out'),
           onTap: () {
-            // TODO: Logout user
+            Provider.of<ProfileManager>(context, listen: false).tapOnProfile(false);
+            Provider.of<AppStateManager>(context, listen: false).logout();
           },
         )
       ],
@@ -100,12 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           imageRadius: 60.0,
         ),
         const SizedBox(height: 16.0),
-        Text(
-          widget.user.firstName,
-          style: const TextStyle(
-            fontSize: 21,
-          ),
-        ),
+        Text(widget.user.firstName, style: const TextStyle(fontSize: 21)),
         Text(widget.user.role),
         Text(
           '${widget.user.points} points',
