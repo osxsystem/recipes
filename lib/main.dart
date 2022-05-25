@@ -3,13 +3,36 @@ import 'package:recipes/home.dart';
 import 'fooder_theme.dart';
 import 'package:provider/provider.dart';
 import 'models/models.dart';
+import 'navigation/app_router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Fooderlich());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Fooderlich extends StatefulWidget {
+
+  const Fooderlich({Key? key}) : super(key: key);
+
+  @override
+  State<Fooderlich> createState() => _FooderlichState();
+}
+
+class _FooderlichState extends State<Fooderlich> {
+  final _groceryManager = GroceryManager();
+  final _profileManager = ProfileManager();
+  final _appStateManager = AppStateManager();
+
+  late AppRouter _appRouter;
+
+  @override
+  void initState() {
+    super.initState();
+    _appRouter = AppRouter(
+      appStateManager: _appStateManager,
+      groceryManager: _groceryManager,
+      profileManager: _profileManager,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +41,29 @@ class MyApp extends StatelessWidget {
         title: 'Recipes',
         home: MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (context) => TabManager()),
-            ChangeNotifierProvider(create: (context) => GroceryManager()),
+            ChangeNotifierProvider(create: (context) => _groceryManager),
+            ChangeNotifierProvider(create: (context) => _profileManager),
+            ChangeNotifierProvider(create: (context) => _appStateManager),
           ],
-          child: const Home(),
+          child: Consumer<ProfileManager>(
+            builder: (context, profileManager, child) {
+              ThemeData theme;
+              if(profileManager.darkMode) {
+                theme = FooderTheme.dark();
+              } else {
+                theme = FooderTheme.light();
+              }
+
+              return MaterialApp(
+                theme: theme,
+                title: 'Fooder',
+                home: Router(
+                  routerDelegate: _appRouter,
+                  // TODO: add backButtonDispatcher
+                )
+              );
+            },
+          ),
         ));
   }
 }

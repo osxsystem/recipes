@@ -62,15 +62,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       controller: controller,
       children: [
         onboardPageView(
-          const AssetImage('assets/fooderlich_assets/recommend.png'),
+          const AssetImage('assets/fooder_assets/recommend.png'),
           '''Check out weekly recommended recipes and what your friends are cooking!''',
         ),
         onboardPageView(
-          const AssetImage('assets/fooderlich_assets/sheet.png'),
+          const AssetImage('assets/fooder_assets/sheet.png'),
           'Cook with step by step instructions!',
         ),
         onboardPageView(
-          const AssetImage('assets/fooderlich_assets/list.png'),
+          const AssetImage('assets/fooder_assets/list.png'),
           'Keep track of what you need to buy',
         ),
       ],

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:recipes/models/models.dart';
+import 'package:provider/provider.dart';
+
+import '../models/fooderlich_pages.dart';
 
 class LoginScreen extends StatelessWidget {
-  // TODO: LoginScreen MaterialPage Helper
+  static MaterialPage page() {
+    return MaterialPage(
+      name: FooderlichPages.loginPath,
+      key: ValueKey(FooderlichPages.loginPath),
+      child: const LoginScreen(),
+    );
+  }
 
   final String? username;
 
-  const LoginScreen({
-    Key? key,
-    this.username,
-  }) : super(key: key);
+  const LoginScreen({ Key? key, this.username, }): super(key: key);
 
   final Color rwColor = const Color.fromRGBO(64, 143, 77, 1);
   final TextStyle focusedStyle = const TextStyle(color: Colors.green);
@@ -27,9 +34,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: 200,
                 child: Image(
-                  image: AssetImage(
-                    'assets/fooderlich_assets/rw_logo.png',
-                  ),
+                  image: AssetImage( 'assets/fooder_assets/rw_logo.png' ),
                 ),
               ),
               const SizedBox(height: 16),
