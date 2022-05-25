@@ -15,7 +15,10 @@ class LoginScreen extends StatelessWidget {
 
   final String? username;
 
-  const LoginScreen({ Key? key, this.username, }): super(key: key);
+  const LoginScreen({
+    Key? key,
+    this.username,
+  }) : super(key: key);
 
   final Color rwColor = const Color.fromRGBO(64, 143, 77, 1);
   final TextStyle focusedStyle = const TextStyle(color: Colors.green);
@@ -34,7 +37,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: 200,
                 child: Image(
-                  image: AssetImage( 'assets/fooder_assets/rw_logo.png' ),
+                  image: AssetImage('assets/fooder_assets/rw_logo.png'),
                 ),
               ),
               const SizedBox(height: 16),
@@ -55,15 +58,10 @@ class LoginScreen extends StatelessWidget {
       height: 55,
       child: MaterialButton(
         color: rwColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: const Text(
-          'Login',
-          style: TextStyle(color: Colors.white),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        child: const Text('Login', style: TextStyle(color: Colors.white)),
         onPressed: () async {
-          // TODO: Login -> Navigate to home
+          Provider.of<AppStateManager>(context, listen: false).login('fooUsername', 'barPassword');
         },
       ),
     );

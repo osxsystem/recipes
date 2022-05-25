@@ -3,23 +3,41 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:intl/intl.dart';
 import 'package:recipes/components/grocery_tile.dart';
+import 'package:recipes/models/fooderlich_pages.dart';
 import 'package:uuid/uuid.dart';
 import '../models/models.dart';
 
 class GroceryItemScreen extends StatefulWidget {
   final Function(GroceryItem) onCreate;
-
-  final Function(GroceryItem) onUpdate;
-
+  final Function(GroceryItem, int) onUpdate;
   final GroceryItem? originalItem;
-
+  final int index;
   final bool isUpdating;
+
+  static MaterialPage page({
+    GroceryItem? item,
+    int index = -1,
+    required Function(GroceryItem) onCreate,
+    required Function(GroceryItem, int) onUpdate,
+  }) {
+    return MaterialPage(
+      name: FooderlichPages.groceryItemDetails,
+      key: ValueKey(FooderlichPages.groceryItemDetails),
+      child: GroceryItemScreen(
+        originalItem: item,
+        index: index,
+        onCreate: onCreate,
+        onUpdate: onUpdate,
+      ),
+    );
+  }
 
   const GroceryItemScreen({
     Key? key,
     required this.onCreate,
     required this.onUpdate,
     this.originalItem,
+    this.index = -1,
   })  : isUpdating = (originalItem != null),
         super(key: key);
 
@@ -41,8 +59,8 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
     super.initState();
     final originalItem = widget.originalItem;
     if (originalItem != null) {
-      _nameController.text = originalItem.name;
       _name = originalItem.name;
+      _nameController.text = originalItem.name;
       _currentSliderValue = originalItem.quantity;
       _importance = originalItem.importance;
       _currentColor = originalItem.color;
@@ -50,7 +68,6 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       _timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
       _dueDate = date;
     }
-
     _nameController.addListener(() {
       setState(() {
         _name = _nameController.text;
@@ -87,7 +104,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
                 ),
               );
               if (widget.isUpdating) {
-                widget.onUpdate(groceryItem);
+                widget.onUpdate(groceryItem, widget.index);
               } else {
                 widget.onCreate(groceryItem);
               }
@@ -110,14 +127,15 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
             const SizedBox(height: 10.0),
             buildQuantityField(),
             GroceryTile(
-                item: GroceryItem(
-              id: 'previewMode',
-              name: _name,
-              importance: _importance,
-              color: _currentColor,
-              quantity: _currentSliderValue,
-              date: DateTime(_dueDate.year, _dueDate.month, _dueDate.day, _dueDate.hour, _dueDate.minute),
-            ))
+              item: GroceryItem(
+                id: 'previewMode',
+                name: _name,
+                importance: _importance,
+                color: _currentColor,
+                quantity: _currentSliderValue,
+                date: DateTime(_dueDate.year, _dueDate.month, _dueDate.day, _dueDate.hour, _dueDate.minute),
+              ),
+            )
           ],
         ),
       ),
@@ -255,9 +273,9 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       children: [
         Row(
           children: [
-            Container( height: 50.0, width: 10.0, color: _currentColor ),
+            Container(height: 50.0, width: 10.0, color: _currentColor),
             const SizedBox(width: 8.0),
-            Text( 'Color', style: GoogleFonts.lato(fontSize: 28.0) ),
+            Text('Color', style: GoogleFonts.lato(fontSize: 28.0)),
           ],
         ),
         TextButton(
@@ -298,9 +316,9 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-              Text('Quantity', style: GoogleFonts.lato(fontSize: 28.0)),
-              const SizedBox(width: 16.0),
-              Text(_currentSliderValue.toInt().toString(), style: GoogleFonts.lato(fontSize: 18.0)),
+            Text('Quantity', style: GoogleFonts.lato(fontSize: 28.0)),
+            const SizedBox(width: 16.0),
+            Text(_currentSliderValue.toInt().toString(), style: GoogleFonts.lato(fontSize: 18.0)),
           ],
         ),
         Slider(

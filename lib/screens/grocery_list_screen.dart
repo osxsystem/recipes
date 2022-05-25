@@ -38,25 +38,11 @@ class GroceryListScreen extends StatelessWidget {
                 item: item,
                 key: Key(item.id),
                 onComplete: (change) {
-                  if (change != null) {
-                    manager.completeItem(index, change);
-                  }
+                  if (change != null) manager.completeItem(index, change);
                 },
               ),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GroceryItemScreen(
-                        originalItem: item,
-                        onCreate: (item) {},
-                        onUpdate: (item) {
-                          manager.updateItem(item, index);
-                          Navigator.pop(context);
-                        },
-                    ),
-                  ),
-                );
+                manager.groceryItemTapped(index);
               },
             ),
           );
